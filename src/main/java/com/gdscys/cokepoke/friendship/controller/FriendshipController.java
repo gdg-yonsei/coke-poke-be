@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Nodes.collect;
 
 @Controller
 @RequestMapping("/friendship")
@@ -40,6 +39,8 @@ public class FriendshipController {
                 .stream()
                 .map(FriendshipResponse::of)
                 .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responses);
     }
 
 
