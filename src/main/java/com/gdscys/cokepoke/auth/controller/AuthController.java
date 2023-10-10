@@ -34,11 +34,8 @@ public class AuthController {
                 .body(MemberResponse.of(member));
     }
 
-    @PostMapping(value = "/login",
-            consumes = "application/json",
-            produces = "application/json"
-    )
-    public ResponseEntity<TokenInfo> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping(value = "/login")
+    public ResponseEntity<TokenInfo> login(@RequestBody @Valid LoginRequest loginRequest) {
         TokenInfo tokenInfo = memberService.login(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok()
                 .header(SET_COOKIE, generateCookie("accessToken", tokenInfo.getAccessToken()).toString())
