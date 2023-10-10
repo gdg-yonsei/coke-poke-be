@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IMemberService {
     Member saveMember(String email, String username, String password);
+    Member findMemberByUsername(String username);
     void updateMember(Member member, UpdateMemberRequest request);
     void deleteMember(Member member);
     List<Member> findAll(int page);
