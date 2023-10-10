@@ -58,13 +58,15 @@ public class FriendshipService implements IFriendshipService {
     }
 
     @Override
-    public List<Friendship> findFriendshipsByMember(String username, int page) {
-        Member member = memberService.findMemberByUsername(username);
+    public List<Friendship> getFriendshipsByMember(String username, int page) {
+        Member member = memberService.getMemberByUsername(username);
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        return friendshipRepository.findAllByFrom(member, pageRequest)
+        List<Friendship> friendships = friendshipRepository.findAllByFrom(member, pageRequest)
                 .stream()
                 .filter(Friendship::isAccepted)
                 .collect(Collectors.toList());
+        if (friendships.isEmpty()) throw new IllegalArgumentException("No friendships found");
+        return friendships;
     }
 
     private void checkIfFriendshipExists(Friendship friendship) {
