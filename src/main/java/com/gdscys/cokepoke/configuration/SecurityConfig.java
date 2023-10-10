@@ -40,16 +40,19 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .headers().frameOptions().sameOrigin()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/login", "/auth/signup", "/h2-console/**")
+                .antMatchers("/", "/auth/login", "/auth/signup",
+                        "/h2-console/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtTokenProvider, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
+
+
+
     }
 
 }
-

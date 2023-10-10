@@ -2,11 +2,7 @@ package com.gdscys.cokepoke.auth.jwt;
 
 import com.gdscys.cokepoke.auth.domain.JwtCode;
 import com.gdscys.cokepoke.auth.domain.TokenInfo;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import javax.servlet.http.Cookie;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Cookie;
 import java.security.Key;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -31,7 +28,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-
     private final Key key;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -50,7 +46,7 @@ public class JwtTokenProvider {
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 .claim("email", email)
-                .setExpiration(java.sql.Date.from(now
+                .setExpiration(Date.from(now
                         .plusMinutes(30)
                         .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -117,4 +113,5 @@ public class JwtTokenProvider {
 
         return cookie;
     }
+
 }
