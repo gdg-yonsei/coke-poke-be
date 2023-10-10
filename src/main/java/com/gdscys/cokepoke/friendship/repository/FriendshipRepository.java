@@ -14,7 +14,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     Page<Friendship> findAllByRequestMember(Member requestMember, Pageable pageable);
     Page<Friendship> findAllByRecipientMember(Member recipientMember, Pageable pageable);
-    Page<Friendship> findAllByRequestMemberOrRecipientMember(Member member);
+    Page<Friendship> findAllByRequestMemberOrRecipientMember(Member member, Pageable pageable);
     Optional<Friendship> findByRequestMemberAndRecipientMember(Member requestMember, Member recipientMember);
     Optional<Friendship> findByRequestMemberOrRecipientMemberAndAccepted(Member requestMember, Member recipientMember, boolean accepted);
 
