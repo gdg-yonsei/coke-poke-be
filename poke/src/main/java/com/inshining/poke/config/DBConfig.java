@@ -23,6 +23,7 @@ public class DBConfig {
         dataSource.setUrl(env.getProperty("url"));
         dataSource.setUsername(env.getProperty("user"));
         dataSource.setPassword(env.getProperty("password"));
+        System.out.println(dataSource.getUrl());
         return dataSource;
     }
 }

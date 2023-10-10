@@ -1,10 +1,12 @@
 package com.inshining.poke.domain.entity.user;
 
+import com.inshining.poke.domain.dto.SignUpRequest;
 import com.inshining.poke.domain.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Entity
@@ -14,7 +16,7 @@ public class User extends BaseTimeEntity {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -31,6 +33,14 @@ public class User extends BaseTimeEntity {
         this.username = username;
         this.password = password;
         this.name = name;
+    }
+
+    public static User from(SignUpRequest request, PasswordEncoder encoder){
+        return User.builder()
+                .username(request.username())
+                .password(encoder.encode(request.password()))
+                .name(request.name())
+                .build();
     }
 
 }
