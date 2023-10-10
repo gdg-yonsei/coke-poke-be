@@ -7,6 +7,7 @@ import com.gdscys.cokepoke.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,6 +23,7 @@ public class FriendshipService implements IFriendshipService {
     private static final int PAGE_SIZE = 15;
 
     @Override
+    @Transactional
     public void createFriendship(String username, String recipientUsername) {
         Member member = memberService.findMemberByUsername(username);
         Member to = memberService.findMemberByUsername(recipientUsername);
