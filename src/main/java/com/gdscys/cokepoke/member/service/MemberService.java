@@ -43,7 +43,7 @@ public class MemberService implements IMemberService {
     }
 
     @Override
-    public Member findMemberByUsername(String username) {
+    public Member getMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }

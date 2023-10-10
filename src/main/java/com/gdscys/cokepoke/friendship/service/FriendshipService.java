@@ -25,8 +25,8 @@ public class FriendshipService implements IFriendshipService {
     @Override
     @Transactional
     public void createFriendship(String username, String recipientUsername) {
-        Member member = memberService.findMemberByUsername(username);
-        Member to = memberService.findMemberByUsername(recipientUsername);
+        Member member = memberService.getMemberByUsername(username);
+        Member to = memberService.getMemberByUsername(recipientUsername);
         if (member.equals(to)) throw new IllegalArgumentException("You cannot be friends with yourself");
         if (friendshipRepository.findByFromAndTo(member, to).isPresent()) {
             throw new IllegalArgumentException("You already sent a friend request");
@@ -40,9 +40,15 @@ public class FriendshipService implements IFriendshipService {
     }
 
     @Override
-    public Friendship findFriendshipByMembers(String username, String username2) {
-        Member member = memberService.findMemberByUsername(username);
-        Member to = memberService.findMemberByUsername(username2);
+    public Friendship getFriendshipById(Long friendshipId) {
+        return friendshipRepository.findById(friendshipId)
+                .orElseThrow(() -> new NoSuchElementException("No friendship found with given id: "+ friendshipId));
+    }
+
+    @Override
+    public Friendship getFriendshipByMembers(String username, String username2) {
+        Member member = memberService.getMemberByUsername(username);
+        Member to = memberService.getMemberByUsername(username2);
 
         Optional<Friendship> friendship = friendshipRepository.findByFromAndTo(member, to);
         Optional<Friendship> friendship2 = friendshipRepository.findByFromAndTo(to, member);
