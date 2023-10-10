@@ -1,5 +1,6 @@
-package com.gdscys.cokepoke.member.domain;
+package com.gdscys.cokepoke.friendship.domain;
 
+import com.gdscys.cokepoke.member.domain.Member;
 import lombok.Getter;
 
 import javax.persistence.*;
