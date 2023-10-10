@@ -24,6 +24,11 @@ public class FriendshipService implements IFriendshipService {
     @Override
     public void createFriendship(Member member, String recipientUsername) {
         Member recipientMember = memberService.findMemberByUsername(recipientUsername);
+        if (member.equals(recipientMember)) throw new IllegalArgumentException("You cannot be friends with yourself");
+        if (friendshipRepository.findByRequestMemberAndRecipientMember(member, recipientMember).isPresent() ||
+                friendshipRepository.findByRequestMemberAndRecipientMember(recipientMember, member).isPresent()
+        ) throw new IllegalArgumentException("You are already friends with " + recipientUsername);
+
         Friendship friendship = new Friendship(member, recipientMember);
         friendshipRepository.save(friendship);
     }

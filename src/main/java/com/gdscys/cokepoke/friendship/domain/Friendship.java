@@ -15,10 +15,12 @@ public class Friendship {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
+    @Column(name = "request_member_id")
     private Member requestMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
+    @Column(name = "recipient_member_id")
     private Member recipientMember;
 
     @Column(name = "is_accepted", columnDefinition = "boolean default false")
