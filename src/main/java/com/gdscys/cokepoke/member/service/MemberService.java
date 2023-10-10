@@ -42,6 +42,12 @@ public class MemberService implements IMemberService {
         return memberRepository.save(member);
     }
 
+    @Override
+    public Member findMemberByUsername(String username) {
+        return memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
+
     @Transactional
     public TokenInfo login(String email, String password) {
 
