@@ -70,9 +70,7 @@ public class MemberService implements IMemberService {
                 .ifPresentOrElse(refreshToken -> {
                     refreshToken.setRefreshToken(tokenInfo.getRefreshToken());
                     refreshTokenRepository.save(refreshToken);
-                }, () -> {
-                    refreshTokenRepository.save(new RefreshToken(tokenInfo.getRefreshToken(), member.get()));
-                });
+                }, () -> refreshTokenRepository.save(new RefreshToken(tokenInfo.getRefreshToken(), member.get())));
         return tokenInfo;
     }
 

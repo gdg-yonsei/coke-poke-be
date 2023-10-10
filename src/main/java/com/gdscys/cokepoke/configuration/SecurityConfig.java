@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/login", "/auth/signup",
+                .antMatchers("/", "/auth/**", "/auth/login", "/auth/signup",
                         "/h2-console/**")
                 .permitAll()
                 .anyRequest().authenticated()
