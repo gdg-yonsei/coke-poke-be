@@ -1,5 +1,6 @@
 package com.gdscys.cokepoke.member.domain;
 
+import com.gdscys.cokepoke.friendship.domain.Friendship;
 import com.gdscys.cokepoke.validation.declaration.ValidEmail;
 import javax.persistence.*;
 import lombok.Getter;
