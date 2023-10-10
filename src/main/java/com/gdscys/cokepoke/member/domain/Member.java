@@ -41,8 +41,11 @@ public class Member implements UserDetails {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private Set<Friendship> friendships = new HashSet<>();
+    @OneToMany(mappedBy = "request_member", fetch = FetchType.LAZY)
+    private Set<Friendship> requestedFriendships = new HashSet<>();
+
+    @OneToMany(mappedBy = "recipient_member", fetch = FetchType.LAZY)
+    private Set<Friendship> receivedFriendships = new HashSet<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;
