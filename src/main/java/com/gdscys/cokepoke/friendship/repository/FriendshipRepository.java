@@ -12,10 +12,8 @@ import java.util.Optional;
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
-    Page<Friendship> findAllByRequestMember(Member requestMember, Pageable pageable);
-    Page<Friendship> findAllByRecipientMember(Member recipientMember, Pageable pageable);
-    Page<Friendship> findAllByRequestMemberOrRecipientMember(Member member, Pageable pageable);
-    Optional<Friendship> findByRequestMemberAndRecipientMember(Member requestMember, Member recipientMember);
-    Optional<Friendship> findByRequestMemberOrRecipientMemberAndAccepted(Member requestMember, Member recipientMember, boolean accepted);
-
+    Page<Friendship> findAllByFrom(Member from, Pageable pageable);
+    Page<Friendship> findAllByTo(Member to, Pageable pageable);
+    Optional<Friendship> findByFromAndTo(Member from, Member to);
+    Optional<Friendship> findByFrom(Member from);
 }

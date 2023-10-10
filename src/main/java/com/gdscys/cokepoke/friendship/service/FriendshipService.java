@@ -23,33 +23,45 @@ public class FriendshipService implements IFriendshipService {
 
     @Override
     public void createFriendship(Member member, String recipientUsername) {
-        Member recipientMember = memberService.findMemberByUsername(recipientUsername);
-        if (member.equals(recipientMember)) throw new IllegalArgumentException("You cannot be friends with yourself");
-        if (friendshipRepository.findByRequestMemberAndRecipientMember(member, recipientMember).isPresent() ||
-                friendshipRepository.findByRequestMemberAndRecipientMember(recipientMember, member).isPresent()
-        ) throw new IllegalArgumentException("You are already friends with " + recipientUsername);
+        Member to = memberService.findMemberByUsername(recipientUsername);
+        if (member.equals(to)) throw new IllegalArgumentException("You cannot be friends with yourself");
+        if (friendshipRepository.findByFromAndTo(member, to).isPresent()) {
+            throw new IllegalArgumentException("You already sent a friend request");
+        }
 
-        Friendship friendship = new Friendship(member, recipientMember);
+        Friendship friendship = new Friendship(member, to);
         friendshipRepository.save(friendship);
+        member.addRequested(friendship);
+        to.addReceived(friendship);
+        checkIfFriendshipExists(friendship);
     }
 
     @Override
     public Friendship findFriendshipByMembers(Member member, String username2) {
-        Member member2 = memberService.findMemberByUsername(username2);
+        Member to = memberService.findMemberByUsername(username2);
 
-        Optional<Friendship> friendship = friendshipRepository.findByRequestMemberAndRecipientMember(member, member2);
-        Optional<Friendship> friendship2 = friendshipRepository.findByRequestMemberAndRecipientMember(member2, member);
+        Optional<Friendship> friendship = friendshipRepository.findByFromAndTo(member, to);
+        Optional<Friendship> friendship2 = friendshipRepository.findByFromAndTo(to, member);
 
-        if (friendship.isEmpty() && friendship2.isEmpty()) throw new NoSuchElementException("No friendship found between " + member2.getUsername() + " and " + username2);
+        if (friendship.isEmpty() && friendship2.isEmpty()) throw new NoSuchElementException("No friendship found between " + to.getUsername() + " and " + username2);
         else return friendship.orElseGet(friendship2::get);
     }
 
     @Override
     public List<Friendship> findFriendshipsByMember(Member member, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        return friendshipRepository.findAllByRequestMemberOrRecipientMember(member, pageRequest)
+        return friendshipRepository.findAllByFrom(member, pageRequest)
                 .stream()
+                .filter(Friendship::isAccepted)
                 .collect(Collectors.toList());
+    }
+
+    private void checkIfFriendshipExists(Friendship friendship) {
+        Optional<Friendship> friendshipOptional = friendshipRepository.findByFromAndTo(friendship.getTo(), friendship.getFrom());
+        if (friendshipOptional.isPresent()) {
+            friendship.accept();
+            friendshipOptional.get().accept();
+        }
     }
 
 }
