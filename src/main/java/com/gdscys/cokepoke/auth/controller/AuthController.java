@@ -2,7 +2,6 @@ package com.gdscys.cokepoke.auth.controller;
 
 import com.gdscys.cokepoke.auth.domain.TokenInfo;
 import com.gdscys.cokepoke.auth.dto.LoginRequest;
-import com.gdscys.cokepoke.member.service.CustomUserDetailsService;
 import com.gdscys.cokepoke.member.domain.Member;
 import com.gdscys.cokepoke.member.dto.SignupRequest;
 import com.gdscys.cokepoke.member.dto.MemberResponse;
@@ -24,7 +23,6 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final CustomUserDetailsService customUserDetailsService;
     private final MemberService memberService;
 
     @PostMapping("/signup")
