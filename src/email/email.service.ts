@@ -1,5 +1,5 @@
 import Mail = require('nodemailer/lib/mailer');
-import * as nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer'; // 간단한 메일 무료전송 라이브러리. 실제 서비스에서는 사용 금지
 
 import { Injectable } from '@nestjs/common';
 
