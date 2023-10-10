@@ -22,7 +22,8 @@ public class FriendshipService implements IFriendshipService {
     private static final int PAGE_SIZE = 15;
 
     @Override
-    public void createFriendship(Member member, String recipientUsername) {
+    public void createFriendship(String username, String recipientUsername) {
+        Member member = memberService.findMemberByUsername(username);
         Member to = memberService.findMemberByUsername(recipientUsername);
         if (member.equals(to)) throw new IllegalArgumentException("You cannot be friends with yourself");
         if (friendshipRepository.findByFromAndTo(member, to).isPresent()) {
@@ -37,7 +38,8 @@ public class FriendshipService implements IFriendshipService {
     }
 
     @Override
-    public Friendship findFriendshipByMembers(Member member, String username2) {
+    public Friendship findFriendshipByMembers(String username, String username2) {
+        Member member = memberService.findMemberByUsername(username);
         Member to = memberService.findMemberByUsername(username2);
 
         Optional<Friendship> friendship = friendshipRepository.findByFromAndTo(member, to);
@@ -48,7 +50,8 @@ public class FriendshipService implements IFriendshipService {
     }
 
     @Override
-    public List<Friendship> findFriendshipsByMember(Member member, int page) {
+    public List<Friendship> findFriendshipsByMember(String username, int page) {
+        Member member = memberService.findMemberByUsername(username);
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
         return friendshipRepository.findAllByFrom(member, pageRequest)
                 .stream()

@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.gdscys.cokepoke.auth.SecurityUtil.getLoginUsername;
+
 
 @Controller
 @RequestMapping("/friendship")
@@ -25,17 +27,17 @@ public class FriendshipController {
 
     // 친구관계 만들기
     @PostMapping("/create")
-    public ResponseEntity<Void> createFriendship(@AuthenticationPrincipal Member member,
-                                                 @RequestBody @Valid FriendshipRequest request) {
-        friendshipService.createFriendship(member, request.getRecipientUsername());
+    public ResponseEntity<Void> createFriendship(@RequestBody @Valid FriendshipRequest request) {
+        String username = getLoginUsername();
+        friendshipService.createFriendship(username, request.getToUsername());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // 내 친구관계 전체조회
     @GetMapping("/my")
-    public ResponseEntity<List<FriendshipResponse>> findFriendshipsByMember(@AuthenticationPrincipal Member member,
-                                                                            @RequestParam(defaultValue = "0") int page) {
-        List<FriendshipResponse> responses = friendshipService.findFriendshipsByMember(member, page)
+    public ResponseEntity<List<FriendshipResponse>> findFriendshipsByMember(@RequestParam(defaultValue = "0") int page) {
+        String username = getLoginUsername();
+        List<FriendshipResponse> responses = friendshipService.findFriendshipsByMember(username, page)
                 .stream()
                 .map(FriendshipResponse::of)
                 .collect(Collectors.toList());

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IFriendshipService {
 
-    void createFriendship(Member member, String recipientUsername);
+    void createFriendship(String username, String recipientUsername);
 
-    Friendship findFriendshipByMembers(Member member, String username2);
+    Friendship findFriendshipByMembers(String username, String username2);
 
-    List<Friendship> findFriendshipsByMember(Member member, int page);
+    List<Friendship> findFriendshipsByMember(String username, int page);
 }
