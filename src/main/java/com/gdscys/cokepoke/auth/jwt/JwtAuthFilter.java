@@ -1,20 +1,23 @@
 package com.gdscys.cokepoke.auth.jwt;
 
+
 import com.gdscys.cokepoke.auth.domain.JwtCode;
 import com.gdscys.cokepoke.auth.domain.TokenInfo;
-import com.gdscys.cokepoke.member.repository.RefreshTokenRepository;
 import com.gdscys.cokepoke.member.domain.RefreshToken;
+import com.gdscys.cokepoke.member.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
-import javax.servlet.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
@@ -89,7 +92,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
 
         // filter 에서 제외한 url 목록
-        String[] excludedPaths = { "/auth/login", "/auth/signUp"};
+        String[] excludedPaths = { "/auth/login", "/auth/signup", "/h2-console"};
 
         for (String excludedPath : excludedPaths) {
             if (path.startsWith(excludedPath)) {
@@ -99,5 +102,4 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         return false;
     }
-
 }
