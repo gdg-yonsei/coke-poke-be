@@ -13,24 +13,23 @@ public class Friendship {
     @Id @GeneratedValue(generator = "FRIENDS_SEQ_GEN")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    @Column(name = "request_member_id")
-    private Member requestMember;
+    @ManyToOne
+    @JoinColumn(name="from_member_id")
+    private Member from;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    @Column(name = "recipient_member_id")
-    private Member recipientMember;
+    @ManyToOne
+    @JoinColumn(name="to_member_id")
+    private Member to;
 
     @Column(name = "is_accepted", columnDefinition = "boolean default false")
     private boolean isAccepted;
 
     protected Friendship() {}
 
-    public Friendship(Member requestMember, Member recipientMember) {
-        this.requestMember = requestMember;
-        this.recipientMember = recipientMember;
+    public Friendship(Member from, Member to) {
+        this.from = from;
+        this.to = to;
+        this.isAccepted = false;
     }
 
     public void accept() {

@@ -13,8 +13,8 @@ public class FriendshipResponse {
     protected FriendshipResponse() {}
 
     public static FriendshipResponse of(Friendship friendship) {
-        String username1 = friendship.getRequestMember().getUsername();
-        String username2 = friendship.getRecipientMember().getUsername();
+        String username1 = friendship.getFrom().getUsername();
+        String username2 = friendship.getTo().getUsername();
         return new FriendshipResponse(username1, username2);
     }
 
