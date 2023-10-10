@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-@Entity(name = "Friends")
+@Entity(name = "Friendship")
 @Getter
 @SequenceGenerator(name = "FRIENDS_SEQ_GEN", sequenceName = "FRIENDS_SEQ", allocationSize = 1)
 public class Friendship {
