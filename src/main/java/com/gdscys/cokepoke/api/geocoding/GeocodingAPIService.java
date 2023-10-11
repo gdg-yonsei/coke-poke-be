@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class GeocodingAPIService {
@@ -25,7 +27,8 @@ public class GeocodingAPIService {
     public double[] getCoordinates(String address) {
         try {
             HttpClient httpClient = HttpClients.createDefault();
-            HttpGet getRequest = new HttpGet(GEOCODING_API_URL + "?address=" + address + "&key=" + apiKey);
+            String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
+            HttpGet getRequest = new HttpGet(GEOCODING_API_URL + "?address=" + encodedAddress + "&key=" + apiKey);
 
             HttpResponse response = httpClient.execute(getRequest);
 

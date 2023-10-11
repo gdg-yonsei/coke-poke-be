@@ -41,13 +41,13 @@ public class PokeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final String address = "1600 Amphitheatre Parkway, Mountain View, CA";
+    private final String address = "1 Gwanghwamun Square, Jongno-gu, Seoul, South Korea";
 
     @BeforeEach
     public void setup() {
-        memberRepository.save(new Member("test1@gmail.com", "test1", "test1", new HashSet<>()));
-        memberRepository.save(new Member("test2@gmail.com", "test2", "test2", new HashSet<>()));
-        memberRepository.save(new Member("test3@gmail.com", "test3", "test3", new HashSet<>()));
+        memberRepository.save(new Member("test1@gmail.com", "test1", "test1"));
+        memberRepository.save(new Member("test2@gmail.com", "test2", "test2"));
+        memberRepository.save(new Member("test3@gmail.com", "test3", "test3"));
 
         //test1 & test3 are friends
         friendshipService.createFriendship("test1", "test3", address);

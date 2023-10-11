@@ -57,11 +57,8 @@ public class Member implements UserDetails {
     @Column(name = "timezone", nullable = false)
     private ZoneId timezone;
 
-    @Column(name = "latitude", nullable = false)
-    private double latitude;
-
-    @Column(name = "longitude", nullable = false)
-    private double longitude;
+    @Column(name = "address", nullable = false)
+    private String address;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private RefreshToken refreshToken;
@@ -72,24 +69,22 @@ public class Member implements UserDetails {
 
     protected Member() {}
 
-    public Member(String email, String username, String passwordHash, Set<String> roles) {
+    public Member(String email, String username, String passwordHash) {
         this.email = email;
         this.username = username;
         this.passwordHash = passwordHash;
-        this.roles = roles;
+        this.roles = new HashSet<>();
         this.timezone = ZoneId.of("Asia/Seoul");
-        this.latitude = 0;
-        this.longitude = 0;
+        this.address = "1 Gwanghwamun Square, Jongno-gu, Seoul, South Korea";
     }
 
-    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone, double latitude, double longitude) {
+    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone, String address) {
         this.email = email;
         this.username = username;
         this.passwordHash = passwordHash;
         this.roles = roles;
         this.timezone = timezone;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.address = address;
     }
 
     public void addRequested(Friendship friendship) {
@@ -104,6 +99,9 @@ public class Member implements UserDetails {
         this.passwordHash = passwordHash;
     }
 
+    public void updateAddress(String address) {
+        this.address = address;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
