@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 @Entity(name = "Member")
 @Getter
 @EntityListeners(AuditingEntityListener.class)
+@Table(indexes = {
+        @Index(name = "idx_member_email", columnList = "email", unique = true)
+})
 public class Member implements UserDetails {
 
     @Id @Column(name = "id", updatable = false, nullable = false, unique = true)
