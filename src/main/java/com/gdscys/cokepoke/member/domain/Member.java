@@ -98,7 +98,7 @@ public class Member implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.refreshToken;
+        return true;
     }
 
     @Override
