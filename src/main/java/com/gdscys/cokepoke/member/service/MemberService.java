@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 public class MemberService implements IMemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     private final static int PAGE_SIZE = 15;
 
@@ -46,32 +43,6 @@ public class MemberService implements IMemberService {
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-    }
-
-    @Transactional
-    public TokenInfo login(String email, String password) {
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email, password);
-
-        Authentication authentication = authenticationManagerBuilder
-                .getObject().authenticate(authenticationToken);
-        Optional<Member> member = memberRepository.findByEmail(email);
-
-        if (member.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
-        }
-
-        //토큰 생성
-        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication, email);
-
-        // refresh token 없으면 생성, 있으면 업데이트
-        refreshTokenRepository.findByMember_Email(member.get().getEmail())
-                .ifPresentOrElse(refreshToken -> {
-                    refreshToken.setRefreshToken(tokenInfo.getRefreshToken());
-                    refreshTokenRepository.save(refreshToken);
-                }, () -> refreshTokenRepository.save(new RefreshToken(tokenInfo.getRefreshToken(), member.get())));
-        return tokenInfo;
     }
 
     @Override
