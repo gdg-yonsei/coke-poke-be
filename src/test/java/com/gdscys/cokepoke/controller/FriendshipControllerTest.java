@@ -7,7 +7,6 @@ import com.gdscys.cokepoke.friendship.dto.FriendshipRequest;
 import com.gdscys.cokepoke.friendship.repository.FriendshipRepository;
 import com.gdscys.cokepoke.member.domain.Member;
 import com.gdscys.cokepoke.member.repository.MemberRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,9 +42,6 @@ public class FriendshipControllerTest {
 
     @Autowired
     private FriendshipRepository friendshipRepository;
-
-    @Autowired
-    private FriendshipController friendshipController;
 
     @Autowired
     private ObjectMapper objectMapper;
