@@ -92,6 +92,20 @@ public class FriendshipControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("멀면 친구 못함")
+    @WithMockUser(username = "test1", password = "test1")
+    public void far_friendship() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new FriendshipRequest("test2", "10 Downing Street, London SW1A 2AA, United Kingdom"));
+        mockMvc.perform(post("/friendship/create")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+
 
 
 
