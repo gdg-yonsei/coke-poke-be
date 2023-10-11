@@ -10,5 +10,4 @@ public interface IMemberService {
     Member findMemberByUsername(String username);
     void updateMember(Member member, UpdateMemberRequest request);
     void deleteMember(Member member);
-    List<Member> findAll(int page);
 }

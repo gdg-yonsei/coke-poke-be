@@ -55,11 +55,4 @@ public class MemberService implements IMemberService {
         memberRepository.delete(member);
     }
 
-    @Override
-    public List<Member> findAll(int page) {
-        PageRequest pr = PageRequest.of(page, PAGE_SIZE);
-        return memberRepository.findAll(pr).stream()
-                .sorted(Comparator.comparing(Member::getUsername))
-                .collect(Collectors.toList());
-    }
 }
