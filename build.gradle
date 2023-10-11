@@ -46,10 +46,8 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-
 	implementation "com.querydsl:querydsl-jpa:5.0.0"
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
-
 }
 
 tasks.named('test') {

@@ -1,6 +1,5 @@
 package com.gdscys.cokepoke.api.geocoding;
 
-import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.GeodeticCalculator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
