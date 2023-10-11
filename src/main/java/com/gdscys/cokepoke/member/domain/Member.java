@@ -1,6 +1,5 @@
 package com.gdscys.cokepoke.member.domain;
 
-import com.gdscys.cokepoke.friendship.domain.Friendship;
 import com.gdscys.cokepoke.validation.declaration.ValidEmail;
 import javax.persistence.*;
 import lombok.Getter;
@@ -41,12 +40,6 @@ public class Member implements UserDetails {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @OneToMany(mappedBy = "from")
-    private Set<Friendship> requested = new HashSet<>();
-
-    @OneToMany(mappedBy = "to")
-    private Set<Friendship> received = new HashSet<>();
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -67,14 +60,6 @@ public class Member implements UserDetails {
         this.username = username;
         this.passwordHash = passwordHash;
         this.roles = roles;
-    }
-
-    public void addRequested(Friendship friendship) {
-        this.requested.add(friendship);
-    }
-
-    public void addReceived(Friendship friendship) {
-        this.received.add(friendship);
     }
 
     public void updatePassword(String passwordHash) {
