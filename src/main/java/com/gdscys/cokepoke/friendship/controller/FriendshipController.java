@@ -29,7 +29,7 @@ public class FriendshipController {
     @PostMapping("/create")
     public ResponseEntity<Void> createFriendship(@RequestBody @Valid FriendshipRequest request) {
         String username = getLoginUsername();
-        friendshipService.createFriendship(username, request.getToUsername());
+        friendshipService.createFriendship(username, request.getToUsername(), request.getMyAddress());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

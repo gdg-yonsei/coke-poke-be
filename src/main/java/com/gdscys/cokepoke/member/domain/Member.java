@@ -57,6 +57,12 @@ public class Member implements UserDetails {
     @Column(name = "timezone", nullable = false)
     private ZoneId timezone;
 
+    @Column(name = "latitude", nullable = false)
+    private double latitude;
+
+    @Column(name = "longitude", nullable = false)
+    private double longitude;
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private RefreshToken refreshToken;
 
@@ -72,14 +78,18 @@ public class Member implements UserDetails {
         this.passwordHash = passwordHash;
         this.roles = roles;
         this.timezone = ZoneId.of("Asia/Seoul");
+        this.latitude = 0;
+        this.longitude = 0;
     }
 
-    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone) {
+    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone, double latitude, double longitude) {
         this.email = email;
         this.username = username;
         this.passwordHash = passwordHash;
         this.roles = roles;
         this.timezone = timezone;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void addRequested(Friendship friendship) {
