@@ -1,4 +1,4 @@
-package com.gdscys.cokepoke.auth;
+package com.gdscys.cokepoke.auth.util;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpRequestResponseHolder;

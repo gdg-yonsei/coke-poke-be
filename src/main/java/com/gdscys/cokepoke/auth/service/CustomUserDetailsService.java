@@ -1,4 +1,4 @@
-package com.gdscys.cokepoke.member.service;
+package com.gdscys.cokepoke.auth.service;
 
 import com.gdscys.cokepoke.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

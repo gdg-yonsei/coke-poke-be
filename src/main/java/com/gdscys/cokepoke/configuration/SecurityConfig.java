@@ -1,6 +1,6 @@
 package com.gdscys.cokepoke.configuration;
 
-import com.gdscys.cokepoke.auth.DelegatingSecurityContextRepository;
+import com.gdscys.cokepoke.auth.util.DelegatingSecurityContextRepository;
 import com.gdscys.cokepoke.auth.jwt.JwtAuthFilter;
 import com.gdscys.cokepoke.auth.jwt.JwtTokenProvider;
 import com.gdscys.cokepoke.member.repository.RefreshTokenRepository;
