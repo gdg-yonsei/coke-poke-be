@@ -52,6 +52,9 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
+    @Column(name = "is_expired", nullable = false)
+    private boolean isExpired = false;
+
 
     protected Member() {}
 
@@ -85,17 +88,17 @@ public class Member implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !this.isExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.isExpired;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.refreshToken;
     }
 
     @Override
