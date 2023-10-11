@@ -6,7 +6,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @Entity
@@ -20,6 +24,7 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+    //TODO: 유니크한 제약 조건 걸기
     private String username;
 
     @Column(nullable = false)
@@ -43,4 +48,7 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return new ArrayList<>();
+    }
 }
