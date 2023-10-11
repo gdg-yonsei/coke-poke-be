@@ -79,5 +79,22 @@ public class PokeControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("24시간 이내에는 한번만 포크 가능")
+    @WithMockUser(username = "test1", password = "test1")
+    public void try_poke_twice_in_a_day() throws Exception {
+        String content = objectMapper.writeValueAsString(new PokeRequest("test3"));
+        mockMvc.perform(post("/poke/")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andDo(print());
+        mockMvc.perform(post("/poke/")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is5xxServerError())
+                .andDo(print());
+    }
+
 
 }
