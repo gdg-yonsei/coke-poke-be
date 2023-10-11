@@ -18,6 +18,7 @@ configurations {
 }
 
 repositories {
+	maven { url "https://repo.osgeo.org/repository/release/"}
 	mavenCentral()
 }
 
@@ -31,6 +32,8 @@ dependencies {
 	implementation 'net.minidev:json-smart:2.4.9'
 
 	implementation 'com.google.maps:google-maps-services:0.2.7'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+	implementation 'org.geotools:gt-main:28.5'
 
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	runtimeOnly 'com.h2database:h2'
