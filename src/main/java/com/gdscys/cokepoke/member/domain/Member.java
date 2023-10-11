@@ -74,6 +74,14 @@ public class Member implements UserDetails {
         this.timezone = ZoneId.of("Asia/Seoul");
     }
 
+    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone) {
+        this.email = email;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.roles = roles;
+        this.timezone = timezone;
+    }
+
     public void addRequested(Friendship friendship) {
         this.requested.add(friendship);
     }
