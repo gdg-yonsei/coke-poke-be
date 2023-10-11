@@ -8,10 +8,12 @@ import com.inshining.poke.domain.dto.SignUpResponse;
 import com.inshining.poke.domain.entity.user.User;
 import com.inshining.poke.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +27,7 @@ public class UserService {
         User user = userRepository.save(User.from(request, encoder));
         try {
             userRepository.flush();
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
         return SignUpResponse.from(user);

@@ -30,6 +30,18 @@ public class UserServiceTest {
     }
 
     @Test
+    void 중복회원가입(){
+        //given
+        SignUpRequest request = new SignUpRequest("abc", "1234", "myname");
+        SignUpRequest request2 = new SignUpRequest("abc", "1234", "myname");
+
+        //when
+        SignUpResponse response = userService.registerUser(request);
+        SignUpResponse response2 = userService.registerUser(request2);
+
+    }
+
+    @Test
     void login성공(){
         //given
         userService.registerUser(new SignUpRequest("aa", "11", "myname"));
