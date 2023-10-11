@@ -53,7 +53,7 @@ public class FriendshipService implements IFriendshipService {
         Optional<Friendship> friendship = friendshipRepository.findByFromAndTo(member, to);
         Optional<Friendship> friendship2 = friendshipRepository.findByFromAndTo(to, member);
 
-        if (friendship.isEmpty() && friendship2.isEmpty()) throw new NoSuchElementException("No friendship found between " + to.getUsername() + " and " + username2);
+        if (friendship.isEmpty() || friendship2.isEmpty()) throw new NoSuchElementException("No friendship found between " + to.getUsername() + " and " + username2);
         else return friendship.orElseGet(friendship2::get);
     }
 
