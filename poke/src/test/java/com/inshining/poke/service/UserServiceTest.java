@@ -1,45 +1,43 @@
 package com.inshining.poke.service;
 
+import com.inshining.poke.config.security.TokenProvider;
 import com.inshining.poke.domain.dto.SignInRequest;
 import com.inshining.poke.domain.dto.SignInResponse;
-import com.inshining.poke.domain.entity.user.User;
-import com.inshining.poke.domain.repository.UserRepository;
+import com.inshining.poke.domain.dto.SignUpRequest;
+import com.inshining.poke.domain.dto.SignUpResponse;
 import com.inshining.poke.domain.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceTest {
-    private final UserService userService;
-    private final UserRepository userRepository;
-
     @Autowired
-    UserServiceTest(UserService userService, UserRepository userRepository){
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
+    private UserService userService;
 
-    @BeforeEach
-    void clear(){
-        userRepository.deleteAllInBatch();
+    @Test
+    void 회원가입_성공(){
+        //given
+        SignUpRequest request = new SignUpRequest("abc", "1234", "myname");
+
+        //when
+        SignUpResponse response = userService.registerUser(request);
+
+        assertThat(response.name()).isEqualTo(request.name());
+        assertThat(response.username()).isEqualTo(request.username());
     }
 
     @Test
-    void login(){
+    void login성공(){
         //given
-        userRepository.save(User.builder()
-                .username("aa")
-                .password("1234")
-                .name("inyeob")
-                .build()
-        );
+        userService.registerUser(new SignUpRequest("aa", "11", "myname"));
+        SignInRequest request = new SignInRequest("aa", "11");
 
         //when
-        SignInResponse response = userService.signIn(new SignInRequest("aa", "11"));
+        SignInResponse response = userService.signIn(request);
 
-        assertThat(response.name()).isEqualTo("inyeob");
+        assertThat(response.name()).isEqualTo("myname");
     }
 }
