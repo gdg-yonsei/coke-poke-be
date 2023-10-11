@@ -44,9 +44,18 @@ dependencies {
 
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+}
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class FriendshipRequest {
     @NotBlank
-    private String recipientUsername;
+    private String toUsername;
 
     protected FriendshipRequest() {}
 }

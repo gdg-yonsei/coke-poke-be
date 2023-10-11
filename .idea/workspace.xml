@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15e55a4b-6e58-4e4e-8dd9-bf6dd6bc6241" name="Changes" comment="" />
+    <list default="true" id="15e55a4b-6e58-4e4e-8dd9-bf6dd6bc6241" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/auth/DelegatingSecurityContextRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/auth/SecurityUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/gdscys/cokepoke/CokePokeApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/CokePokeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/CokePokeApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/controller/FriendshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/controller/FriendshipController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/dto/FriendshipRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/dto/FriendshipRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/service/FriendshipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/service/FriendshipService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/service/IFriendshipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gdscys/cokepoke/friendship/service/IFriendshipService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +91,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/becooq81__step1",
+    "git-widget-placeholder": "Rebasing feature/becooq81__step1",
     "last_opened_file_path": "/Users/jinny/Downloads/coke-poke",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
