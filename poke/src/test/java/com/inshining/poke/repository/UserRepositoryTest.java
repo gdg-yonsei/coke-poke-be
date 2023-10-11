@@ -32,7 +32,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void findbyUsername(){
+    void findByUsername(){
         userRepository.save(
                 User.builder()
                         .username("aa")
