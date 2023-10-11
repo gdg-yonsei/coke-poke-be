@@ -1,9 +1,6 @@
 package com.gdscys.cokepoke.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gdscys.cokepoke.friendship.domain.Friendship;
-import com.gdscys.cokepoke.friendship.dto.FriendshipRequest;
-import com.gdscys.cokepoke.friendship.repository.FriendshipRepository;
 import com.gdscys.cokepoke.friendship.service.FriendshipService;
 import com.gdscys.cokepoke.member.domain.Member;
 import com.gdscys.cokepoke.member.repository.MemberRepository;
@@ -51,8 +48,8 @@ public class PokeControllerTest {
         memberRepository.save(new Member("test3@gmail.com", "test3", "test3", new HashSet<>()));
 
         //test1 & test3 are friends
-        friendshipService.createFriendship("test1", "test3");
-        friendshipService.createFriendship("test3", "test1");
+        friendshipService.createFriendship("test1", "test3", "1600 Amphitheatre Parkway, Mountain View, CA");
+        friendshipService.createFriendship("test3", "test1", "1600 Amphitheatre Parkway, Mountain View, CA");
     }
 
     @Test
