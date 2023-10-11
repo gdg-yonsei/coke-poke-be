@@ -46,6 +46,8 @@ public class FriendshipControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final String address = "1600 Amphitheatre Parkway, Mountain View, CA";
+
     @BeforeEach
     public void setup() {
         memberRepository.save(new Member("test1@gmail.com", "test1", "test1", new HashSet<>()));
@@ -58,7 +60,7 @@ public class FriendshipControllerTest {
     @DisplayName("친구관계 만들기")
     @WithMockUser(username = "test1", password = "test1")
     public void create_friendship() throws Exception {
-        String content = objectMapper.writeValueAsString(new FriendshipRequest("test2"));
+        String content = objectMapper.writeValueAsString(new FriendshipRequest("test2", address));
         mockMvc.perform(post("/friendship/create")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -70,7 +72,7 @@ public class FriendshipControllerTest {
     @DisplayName("나 자신과는 친구 관계 못함")
     @WithMockUser(username = "test1", password = "test1")
     public void create_self_friendship() throws Exception {
-        String content = objectMapper.writeValueAsString(new FriendshipRequest("test1"));
+        String content = objectMapper.writeValueAsString(new FriendshipRequest("test1", address));
         mockMvc.perform(post("/friendship/create")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -82,7 +84,7 @@ public class FriendshipControllerTest {
     @DisplayName("이미 친구 신청했으면 다시 하지는 못함")
     @WithMockUser(username = "test1", password = "test1")
     public void reattempt_friendship() throws Exception {
-        String content = objectMapper.writeValueAsString(new FriendshipRequest("test3"));
+        String content = objectMapper.writeValueAsString(new FriendshipRequest("test3", address));
         mockMvc.perform(post("/friendship/create")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))

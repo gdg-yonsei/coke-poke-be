@@ -41,6 +41,8 @@ public class PokeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final String address = "1600 Amphitheatre Parkway, Mountain View, CA";
+
     @BeforeEach
     public void setup() {
         memberRepository.save(new Member("test1@gmail.com", "test1", "test1", new HashSet<>()));
@@ -48,8 +50,8 @@ public class PokeControllerTest {
         memberRepository.save(new Member("test3@gmail.com", "test3", "test3", new HashSet<>()));
 
         //test1 & test3 are friends
-        friendshipService.createFriendship("test1", "test3", "1600 Amphitheatre Parkway, Mountain View, CA");
-        friendshipService.createFriendship("test3", "test1", "1600 Amphitheatre Parkway, Mountain View, CA");
+        friendshipService.createFriendship("test1", "test3", address);
+        friendshipService.createFriendship("test3", "test1", address);
     }
 
     @Test
