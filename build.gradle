@@ -30,6 +30,8 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.12'
 	implementation 'net.minidev:json-smart:2.4.9'
 
+	implementation 'com.google.maps:google-maps-services:0.2.7'
+
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'

@@ -16,6 +16,9 @@ spring:
       path: /h2-console
 jwt:
   secret: fpvuvttzKZKGmQ3UoD0QpU7oSDAmCKb8X6l78RULm1Rm01R5Itcg5C8Q9me5sffF
+gcp:
+  geocoding:
+    api-key: AIzaSyCZ9Kh15ocpwy2GTliq-zKgu64h8_8qPzM
 
 logging:
   level:
