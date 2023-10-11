@@ -41,7 +41,6 @@ public class FriendshipController {
                 .stream()
                 .map(FriendshipResponse::of)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(responses);
     }
 
