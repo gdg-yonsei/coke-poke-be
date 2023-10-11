@@ -71,7 +71,7 @@ public class Member implements UserDetails {
         this.username = username;
         this.passwordHash = passwordHash;
         this.roles = roles;
-        this.timezone = getTimezone();
+        this.timezone = ZoneId.of("Asia/Seoul");
     }
 
     public void addRequested(Friendship friendship) {
