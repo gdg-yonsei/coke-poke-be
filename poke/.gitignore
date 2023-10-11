@@ -37,3 +37,9 @@ out/
 .vscode/
 
 /myDB.db
+
+
+/myTestDB.db
+/jwt.yml
+/src/main/resources/*.properties
+/src/main/resources/*.yml
