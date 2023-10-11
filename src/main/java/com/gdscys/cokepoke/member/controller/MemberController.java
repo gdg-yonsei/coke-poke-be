@@ -27,14 +27,4 @@ public class MemberController {
         return ResponseEntity.ok(MemberResponse.of(member));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<MemberResponse>> viewAll(@AuthenticationPrincipal Member member,
-                                                        @RequestParam @Min(0) int page) {
-        List<MemberResponse> responses = memberService.findAll(page)
-                .stream()
-                .map(MemberResponse::of)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(responses);
-    }
-
 }
