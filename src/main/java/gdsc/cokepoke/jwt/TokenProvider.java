@@ -16,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -27,8 +30,6 @@ public class TokenProvider {
 
     private static final String AUTORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;           // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
 
     private final Key key;
 
@@ -50,19 +51,20 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
         // 토큰 만료 시간 설정
-        long now = (System.currentTimeMillis());
-        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-        Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
+        ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+        LocalDateTime now = LocalDateTime.now(koreaZone);
+        LocalDateTime accessTokenExpiresIn = now.plus(1, ChronoUnit.HOURS); // 1시간
+        LocalDateTime refreshTokenExpiresIn = now.plus(7, ChronoUnit.DAYS); // 7일
 
         // 토큰 생성 (accessToken, refreshToken)
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())           // payload "sub": "username"
                 .claim(AUTORITIES_KEY, authorities)             // payload "auth": "ROLE_USER"
-                .setExpiration(accessTokenExpiresIn)  // payload "exp": 1624531200
+                .setExpiration(Date.from(accessTokenExpiresIn.atZone(koreaZone).toInstant()))
                 .signWith(key, SignatureAlgorithm.HS512)        // header "alg": "HS512"
                 .compact();
         String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiresIn)
+                .setExpiration(Date.from(refreshTokenExpiresIn.atZone(koreaZone).toInstant()))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
@@ -70,7 +72,7 @@ public class TokenProvider {
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
+                .accessTokenExpiresIn(accessTokenExpiresIn.atZone(koreaZone).toEpochSecond())
                 .refreshToken(refreshToken)
                 .build();
     }
