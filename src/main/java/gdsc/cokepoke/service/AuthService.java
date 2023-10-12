@@ -4,6 +4,7 @@ import gdsc.cokepoke.dto.MemberRequestDto;
 import gdsc.cokepoke.dto.MemberResponseDto;
 import gdsc.cokepoke.dto.TokenDto;
 import gdsc.cokepoke.dto.TokenRequestDto;
+import gdsc.cokepoke.entity.Authority;
 import gdsc.cokepoke.entity.Member;
 import gdsc.cokepoke.entity.RefreshToken;
 import gdsc.cokepoke.jwt.TokenProvider;
@@ -31,8 +32,11 @@ public class AuthService {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
         }
-
-        Member member = memberRequestDto.toMember(passwordEncoder);
+        Member member = Member.builder()
+                .email(memberRequestDto.getEmail())
+                .password(passwordEncoder.encode(memberRequestDto.getPassword()))
+                .authority(Authority.ROLE_USER)
+                .build();
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
