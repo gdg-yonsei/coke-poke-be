@@ -6,6 +6,7 @@ import com.inshining.poke.domain.dto.SignInResponse;
 import com.inshining.poke.domain.dto.SignUpRequest;
 import com.inshining.poke.domain.dto.SignUpResponse;
 import com.inshining.poke.domain.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +38,9 @@ public class UserServiceTest {
 
         //when
         SignUpResponse response = userService.registerUser(request);
-        SignUpResponse response2 = userService.registerUser(request2);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser(request2);
+        });
 
     }
 

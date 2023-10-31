@@ -22,14 +22,22 @@ public class UserService {
     private final PasswordEncoder encoder;
     private final TokenProvider tokenProvider;
 
+    private static User makeUser(SignUpRequest request, PasswordEncoder encoder){
+        return User.builder()
+                .username(request.username())
+                .password(encoder.encode(request.password()))
+                .name(request.name())
+                .build();
+    }
+
     @Transactional
     public SignUpResponse registerUser(SignUpRequest request) {
-        User user = userRepository.save(User.from(request, encoder));
-        try {
-            userRepository.flush();
-        } catch (DataIntegrityViolationException | ConstraintViolationException e) {
+        boolean isExists = userRepository.existsByUsername(request.username());
+        if (isExists){
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
+        User user = userRepository.save(makeUser(request, encoder));
+        userRepository.flush();
         return SignUpResponse.from(user);
     }
 

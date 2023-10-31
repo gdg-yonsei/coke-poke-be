@@ -39,13 +39,7 @@ public class User extends BaseTimeEntity {
         this.name = name;
     }
 
-    public static User from(SignUpRequest request, PasswordEncoder encoder){
-        return User.builder()
-                .username(request.username())
-                .password(encoder.encode(request.password()))
-                .name(request.name())
-                .build();
-    }
+
 
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return new ArrayList<>();
