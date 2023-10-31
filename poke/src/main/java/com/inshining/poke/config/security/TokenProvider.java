@@ -18,6 +18,7 @@ public class TokenProvider {
     private final long refreshExpirationHours;
     private final String issuer;
     private final long reissueLimit;
+    private final String algorithmWay;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -27,6 +28,7 @@ public class TokenProvider {
             @Value("${expiration-minutes}") long expirationMinutes,
             @Value("${refresh-expiration-hours}") long refreshExpirationHours,
             @Value("${issuer}") String issuer,
+            @Value("${algorithmWay}") String algorithmWay,
             UserRefreshTokenRepository userRefreshTokenRepository
     ){
         this.secretKey = secretKey;
@@ -34,10 +36,11 @@ public class TokenProvider {
         this.refreshExpirationHours = refreshExpirationHours;
         this.issuer = issuer;
         this.userRefreshTokenRepository = userRefreshTokenRepository;
+        this.algorithmWay = algorithmWay;
         reissueLimit = refreshExpirationHours * 60 / expirationMinutes;
     }
     public String createAccessToken(String userSpec){
-        Algorithm algorithm = Algorithm.HMAC256("gdscys2023");
+        Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
 
         return JWT.create()
                 // TODO: 만료 기한 정하기

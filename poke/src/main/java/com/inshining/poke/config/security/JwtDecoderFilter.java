@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,14 +26,20 @@ import java.util.List;
 @Component
 public class JwtDecoderFilter extends OncePerRequestFilter {
 
+    @Value("${issuer}")
+    private String issuer;
+
+    @Value("${algorithmWay}")
+    private String algorithmWay;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
             try {
                 String accessToken = header.substring(7);
-                Algorithm algorithm = Algorithm.HMAC256("gdscys2023");
-                JWTVerifier verifier = JWT.require(algorithm).withIssuer("inshining").build();
+                Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
+                JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
                 DecodedJWT decodedJWT = verifier.verify(accessToken);
                 String username = decodedJWT.getSubject();
 
