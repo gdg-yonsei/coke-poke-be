@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @PropertySource("classpath:jwt.yml")
 @Service
 public class TokenProvider {
@@ -43,9 +45,10 @@ public class TokenProvider {
         Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
 
         return JWT.create()
-                // TODO: 만료 기한 정하기
                 .withIssuer(issuer)
                 .withSubject(userSpec)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 5000L))
                 .sign(algorithm);
     }
 
