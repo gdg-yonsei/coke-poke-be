@@ -26,6 +26,9 @@ import java.util.List;
 @Component
 public class JwtDecoderFilter extends OncePerRequestFilter {
 
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
+
     @Value("${issuer}")
     private String issuer;
 
@@ -34,22 +37,26 @@ public class JwtDecoderFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
+        String header = request.getHeader(AUTHORIZATION_HEADER);
+        if (header != null && header.startsWith(BEARER_PREFIX)) {
             try {
-                String accessToken = header.substring(7);
-                Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
-                JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
-                DecodedJWT decodedJWT = verifier.verify(accessToken);
-                String username = decodedJWT.getSubject();
-
-                User user = new User(username, "", List.of(new SimpleGrantedAuthority("normal")));
-                Authentication authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                String accessToken = header.substring(BEARER_PREFIX.length());
+                Authentication authenticationToken = getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } catch (JWTVerificationException exception){
                 exception.printStackTrace();
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private Authentication getAuthentication(String token){
+        Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
+        JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        String username = decodedJWT.getSubject();
+
+        User user = new User(username, "", List.of(new SimpleGrantedAuthority("normal")));
+        return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
     }
 }
