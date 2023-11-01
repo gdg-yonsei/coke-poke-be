@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @PropertySource("classpath:jwt.yml")
@@ -44,11 +47,17 @@ public class TokenProvider {
     public String createAccessToken(String userSpec){
         Algorithm algorithm = Algorithm.HMAC256(algorithmWay);
 
+        ZoneId koreaZone = ZoneId.of("Asia/Seoul");
+        LocalDateTime currentTime = LocalDateTime.now(koreaZone);
+        LocalDateTime expiredAccessTime = currentTime.plus(2, ChronoUnit.HOURS);
+        LocalDateTime expiredRefreshTime = currentTime.plus(7, ChronoUnit.DAYS);
+
+
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(userSpec)
-                .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5000L))
+                .withIssuedAt(Date.from(currentTime.atZone(koreaZone).toInstant()))
+                .withExpiresAt(Date.from(expiredAccessTime.atZone(koreaZone).toInstant()))
                 .sign(algorithm);
     }
 
