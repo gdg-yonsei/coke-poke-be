@@ -1,0 +1,120 @@
+package com.gdscys.cokepoke.member.domain;
+
+import com.gdscys.cokepoke.friendship.domain.Friendship;
+import com.gdscys.cokepoke.validation.declaration.ValidEmail;
+import javax.persistence.*;
+import lombok.Getter;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Entity(name = "Member")
+@Getter
+@EntityListeners(AuditingEntityListener.class)
+public class Member implements UserDetails {
+
+    @Id @Column(name = "id", updatable = false, nullable = false, unique = true)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID id;
+
+    @Column(name = "email", unique = true, nullable = false, columnDefinition = "varchar(40)")
+    @ValidEmail
+    private String email;
+
+    @Column(name = "username", nullable = false, columnDefinition = "varchar(20)")
+    private String username;
+
+    @JsonIgnore
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    @OneToMany(mappedBy = "from")
+    private Set<Friendship> requested = new HashSet<>();
+
+    @OneToMany(mappedBy = "to")
+    private Set<Friendship> received = new HashSet<>();
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private RefreshToken refreshToken;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles = new HashSet<>();
+
+
+    protected Member() {}
+
+    public Member(String email, String username, String passwordHash, Set<String> roles) {
+        this.email = email;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.roles = roles;
+    }
+
+    public void addRequested(Friendship friendship) {
+        this.requested.add(friendship);
+    }
+
+    public void addReceived(Friendship friendship) {
+        this.received.add(friendship);
+    }
+
+    public void updatePassword(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.passwordHash;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
