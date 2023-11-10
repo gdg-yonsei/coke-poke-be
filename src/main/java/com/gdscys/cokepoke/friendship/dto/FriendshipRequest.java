@@ -11,5 +11,8 @@ public class FriendshipRequest {
     @NotBlank
     private String toUsername;
 
+    @NotBlank
+    private String myAddress;
+
     protected FriendshipRequest() {}
 }

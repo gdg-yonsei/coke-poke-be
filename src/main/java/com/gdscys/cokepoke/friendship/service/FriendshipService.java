@@ -1,5 +1,6 @@
 package com.gdscys.cokepoke.friendship.service;
 
+import com.gdscys.cokepoke.api.geocoding.GeocodingAPIService;
 import com.gdscys.cokepoke.friendship.domain.Friendship;
 import com.gdscys.cokepoke.friendship.repository.FriendshipRepository;
 import com.gdscys.cokepoke.member.domain.Member;
@@ -19,14 +20,22 @@ import java.util.stream.Collectors;
 public class FriendshipService implements IFriendshipService {
     private final FriendshipRepository friendshipRepository;
     private final MemberService memberService;
+    private final GeocodingAPIService geocodingAPIService;
 
     private static final int PAGE_SIZE = 15;
 
     @Override
     @Transactional
-    public void createFriendship(String username, String recipientUsername) {
+    public void createFriendship(String username, String recipientUsername, String requestAddress) {
         Member member = memberService.getMemberByUsername(username);
+        member.updateAddress(requestAddress);
         Member to = memberService.getMemberByUsername(recipientUsername);
+
+        double[] requestingLocation = geocodingAPIService.getCoordinates(requestAddress);
+        double[] receivingLocation = geocodingAPIService.getCoordinates(to.getAddress());
+        double distanceInKm = geocodingAPIService.calculateDistance(requestingLocation[0], requestingLocation[1], receivingLocation[0], receivingLocation[1]);
+        if (distanceInKm > 1.0) throw new IllegalArgumentException("You are too far away from " + to.getUsername());
+
         if (member.equals(to)) throw new IllegalArgumentException("You cannot be friends with yourself");
         if (friendshipRepository.findByFromAndTo(member, to).isPresent()) {
             throw new IllegalArgumentException("You already sent a friend request");

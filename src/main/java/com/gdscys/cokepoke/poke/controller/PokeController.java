@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.gdscys.cokepoke.auth.SecurityUtil.getLoginUsername;
-import static java.util.Arrays.stream;
 
 @Controller
 @RequiredArgsConstructor

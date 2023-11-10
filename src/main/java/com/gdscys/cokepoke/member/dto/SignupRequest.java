@@ -26,13 +26,21 @@ public class SignupRequest {
     @Length(min = 8, max = 20)
     private String confirmPassword;
 
+    @NotBlank
+    private String timezone;
+
+    @NotBlank
+    private String address;
+
     protected SignupRequest() {}
 
     @Builder
-    public SignupRequest(String email, String username, String password, String confirmPassword) {
+    public SignupRequest(String email, String username, String password, String confirmPassword, String timezone, String address) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.timezone = timezone;
+        this.address = address;
     }
 }

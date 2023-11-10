@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponse> signup(@RequestBody @Valid SignupRequest request) {
-        Member member = memberService.saveMember(request.getEmail(), request.getUsername(), request.getPassword());
+        Member member = memberService.saveMember(request.getEmail(), request.getUsername(), request.getPassword(), request.getTimezone(), request.getAddress());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(MemberResponse.of(member));
     }

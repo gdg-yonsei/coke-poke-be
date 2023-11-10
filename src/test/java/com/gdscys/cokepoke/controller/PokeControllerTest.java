@@ -1,9 +1,6 @@
 package com.gdscys.cokepoke.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gdscys.cokepoke.friendship.domain.Friendship;
-import com.gdscys.cokepoke.friendship.dto.FriendshipRequest;
-import com.gdscys.cokepoke.friendship.repository.FriendshipRepository;
 import com.gdscys.cokepoke.friendship.service.FriendshipService;
 import com.gdscys.cokepoke.member.domain.Member;
 import com.gdscys.cokepoke.member.repository.MemberRepository;
@@ -44,15 +41,17 @@ public class PokeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final String address = "1 Gwanghwamun Square, Jongno-gu, Seoul, South Korea";
+
     @BeforeEach
     public void setup() {
-        memberRepository.save(new Member("test1@gmail.com", "test1", "test1", new HashSet<>()));
-        memberRepository.save(new Member("test2@gmail.com", "test2", "test2", new HashSet<>()));
-        memberRepository.save(new Member("test3@gmail.com", "test3", "test3", new HashSet<>()));
+        memberRepository.save(new Member("test1@gmail.com", "test1", "test1"));
+        memberRepository.save(new Member("test2@gmail.com", "test2", "test2"));
+        memberRepository.save(new Member("test3@gmail.com", "test3", "test3"));
 
         //test1 & test3 are friends
-        friendshipService.createFriendship("test1", "test3");
-        friendshipService.createFriendship("test3", "test1");
+        friendshipService.createFriendship("test1", "test3", address);
+        friendshipService.createFriendship("test3", "test1", address);
     }
 
     @Test

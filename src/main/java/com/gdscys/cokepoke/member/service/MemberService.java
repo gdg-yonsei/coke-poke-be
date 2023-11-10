@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +38,8 @@ public class MemberService implements IMemberService {
     private final static int PAGE_SIZE = 15;
 
     @Override
-    public Member saveMember(String email, String username, String password) {
-        Member member = new Member(email, username, passwordEncoder.encode(password), Set.of("USER"));
+    public Member saveMember(String email, String username, String password, String timezone, String address) {
+        Member member = new Member(email, username, passwordEncoder.encode(password), Set.of("USER"), ZoneId.of(timezone), address);
         return memberRepository.save(member);
     }
 
