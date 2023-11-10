@@ -37,11 +37,10 @@ public class FriendshipController {
     @GetMapping("/my")
     public ResponseEntity<List<FriendshipResponse>> findFriendshipsByMember(@RequestParam(defaultValue = "0") int page) {
         String username = getLoginUsername();
-        List<FriendshipResponse> responses = friendshipService.findFriendshipsByMember(username, page)
+        List<FriendshipResponse> responses = friendshipService.getFriendshipsByMember(username, page)
                 .stream()
                 .map(FriendshipResponse::of)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(responses);
     }
 

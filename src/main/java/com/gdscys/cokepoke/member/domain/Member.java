@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,6 +54,9 @@ public class Member implements UserDetails {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(name = "timezone", nullable = false)
+    private ZoneId timezone;
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private RefreshToken refreshToken;
 
@@ -67,6 +71,15 @@ public class Member implements UserDetails {
         this.username = username;
         this.passwordHash = passwordHash;
         this.roles = roles;
+        this.timezone = ZoneId.of("Asia/Seoul");
+    }
+
+    public Member(String email, String username, String passwordHash, Set<String> roles, ZoneId timezone) {
+        this.email = email;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.roles = roles;
+        this.timezone = timezone;
     }
 
     public void addRequested(Friendship friendship) {
