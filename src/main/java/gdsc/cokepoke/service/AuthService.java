@@ -1,9 +1,9 @@
 package gdsc.cokepoke.service;
 
-import gdsc.cokepoke.dto.MemberRequestDto;
-import gdsc.cokepoke.dto.MemberResponseDto;
-import gdsc.cokepoke.dto.TokenDto;
-import gdsc.cokepoke.dto.TokenRequestDto;
+import gdsc.cokepoke.dto.member.MemberRequestDto;
+import gdsc.cokepoke.dto.member.MemberResponseDto;
+import gdsc.cokepoke.dto.member.TokenDto;
+import gdsc.cokepoke.dto.member.TokenRequestDto;
 import gdsc.cokepoke.entity.Authority;
 import gdsc.cokepoke.entity.Member;
 import gdsc.cokepoke.entity.RefreshToken;

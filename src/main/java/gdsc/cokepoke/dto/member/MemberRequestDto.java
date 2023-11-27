@@ -1,10 +1,7 @@
-package gdsc.cokepoke.dto;
+package gdsc.cokepoke.dto.member;
 
-import gdsc.cokepoke.entity.Authority;
-import gdsc.cokepoke.entity.Member;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 public class MemberRequestDto {

@@ -1,6 +1,6 @@
 package gdsc.cokepoke.jwt;
 
-import gdsc.cokepoke.dto.TokenDto;
+import gdsc.cokepoke.dto.member.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

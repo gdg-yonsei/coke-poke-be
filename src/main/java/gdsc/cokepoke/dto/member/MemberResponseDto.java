@@ -1,4 +1,4 @@
-package gdsc.cokepoke.dto;
+package gdsc.cokepoke.dto.member;
 
 import gdsc.cokepoke.entity.Member;
 import lombok.*;

@@ -1,8 +1,7 @@
 package gdsc.cokepoke.service;
 
-import gdsc.cokepoke.dto.MemberRequestDto;
-import gdsc.cokepoke.dto.MemberResponseDto;
-import gdsc.cokepoke.entity.Authority;
+import gdsc.cokepoke.dto.member.MemberRequestDto;
+import gdsc.cokepoke.dto.member.MemberResponseDto;
 import gdsc.cokepoke.entity.Member;
 import gdsc.cokepoke.repository.MemberRepository;
 import org.junit.Test;
