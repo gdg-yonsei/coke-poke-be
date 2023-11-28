@@ -2,7 +2,6 @@ package gdsc.cokepoke.controller;
 
 import gdsc.cokepoke.dto.friend.CreateFriendRequestDto;
 import gdsc.cokepoke.dto.friend.CreateFriendResponseDto;
-import gdsc.cokepoke.dto.friend.GetFriendRequestDto;
 import gdsc.cokepoke.dto.friend.GetFriendResponseDto;
 import gdsc.cokepoke.service.FriendRelationshipService;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +22,14 @@ public class FriendRelationshipController {
     }
 
     // 친구 관계 조회 ([팔로잉] 내가 팔로잉 중인 친구)
-    @GetMapping("/following")
-    public ResponseEntity<List<GetFriendResponseDto>> getFollowing(@RequestBody GetFriendRequestDto getFriendRequestDto) {
-        return ResponseEntity.ok(friendRelationshipService.getFollowing(getFriendRequestDto));
+    @GetMapping("/following/{sender:.+}/")
+    public ResponseEntity<List<GetFriendResponseDto>> getFollowing(@PathVariable("sender") String sender) {
+        return ResponseEntity.ok(friendRelationshipService.getFollowing(sender));
     }
 
     // 친구 관계 조회 ([팔로워] 나를 팔로우 하고 있는 친구)
-    @GetMapping("/follower")
-    public ResponseEntity<List<GetFriendResponseDto>> getFollower(@RequestBody GetFriendRequestDto getFriendRequestDto) {
-        return ResponseEntity.ok(friendRelationshipService.getFollower(getFriendRequestDto));
+    @GetMapping("/follower/{receiver:.+}/")
+    public ResponseEntity<List<GetFriendResponseDto>> getFollower(@PathVariable("receiver") String receiver) {
+        return ResponseEntity.ok(friendRelationshipService.getFollower(receiver));
     }
 }

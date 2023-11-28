@@ -2,7 +2,6 @@ package gdsc.cokepoke.service;
 
 import gdsc.cokepoke.dto.friend.CreateFriendRequestDto;
 import gdsc.cokepoke.dto.friend.CreateFriendResponseDto;
-import gdsc.cokepoke.dto.friend.GetFriendRequestDto;
 import gdsc.cokepoke.dto.friend.GetFriendResponseDto;
 import gdsc.cokepoke.entity.FriendRelationship;
 import gdsc.cokepoke.repository.FriendRelationshipRepository;
@@ -40,9 +39,9 @@ public class FriendRelationshipService {
         return CreateFriendResponseDto.of(friendRelationshipRepository.save(friendRelationship));
     }
 
-    public List<GetFriendResponseDto> getFollowing(GetFriendRequestDto getFriendRequestDto) {
+    public List<GetFriendResponseDto> getFollowing(String email) {
         // 친구 관계 조회 ([팔로잉] 내가 팔로잉 중인 친구)
-        List<FriendRelationship> friendRelationships = friendRelationshipRepository.findBySenderEmail(getFriendRequestDto.getUserEmail());
+        List<FriendRelationship> friendRelationships = friendRelationshipRepository.findBySenderEmail(email);
         List<String> friendEmails = friendRelationships.stream()
                 .map(FriendRelationship::getReceiverEmail)
                 .toList();
@@ -51,9 +50,9 @@ public class FriendRelationshipService {
                 .collect(Collectors.toList());
     }
 
-    public List<GetFriendResponseDto> getFollower(GetFriendRequestDto getFriendRequestDto) {
+    public List<GetFriendResponseDto> getFollower(String email) {
         // 친구 관계 조회 ([팔로워] 나를 팔로우 하고 있는 친구)
-        List<FriendRelationship> friendRelationships = friendRelationshipRepository.findByReceiverEmail(getFriendRequestDto.getUserEmail());
+        List<FriendRelationship> friendRelationships = friendRelationshipRepository.findByReceiverEmail(email);
         List<String> friendEmails = friendRelationships.stream()
                 .map(FriendRelationship::getSenderEmail)
                 .toList();
