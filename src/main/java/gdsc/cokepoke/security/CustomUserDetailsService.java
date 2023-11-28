@@ -1,4 +1,4 @@
-package gdsc.cokepoke.config.security;
+package gdsc.cokepoke.security;
 
 import gdsc.cokepoke.domain.entity.User;
 import gdsc.cokepoke.repository.UserRepository;
