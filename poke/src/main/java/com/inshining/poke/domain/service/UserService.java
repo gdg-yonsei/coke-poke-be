@@ -8,8 +8,6 @@ import com.inshining.poke.domain.dto.SignUpResponse;
 import com.inshining.poke.domain.entity.user.User;
 import com.inshining.poke.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
