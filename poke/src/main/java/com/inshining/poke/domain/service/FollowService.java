@@ -1,9 +1,6 @@
 package com.inshining.poke.domain.service;
 
-import com.inshining.poke.domain.dto.follow.FollowRequest;
-import com.inshining.poke.domain.dto.follow.FollowResponse;
-import com.inshining.poke.domain.dto.follow.MyFriendRequest;
-import com.inshining.poke.domain.dto.follow.MyFriendResponse;
+import com.inshining.poke.domain.dto.follow.*;
 import com.inshining.poke.domain.entity.follow.Follow;
 import com.inshining.poke.domain.entity.user.User;
 import com.inshining.poke.domain.repository.FollowRepository;
@@ -11,8 +8,10 @@ import com.inshining.poke.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +27,7 @@ public class FollowService {
                 .build();
     }
 
-    public FollowResponse followUser(FollowRequest request){
+    public FollowResponse followUser(FollowRequest request) throws IllegalArgumentException{
         String followerUserName = request.followerName();
         Long followingUserId = request.followingId();
         boolean isFollowerExists = userRepository.existsByUsername(followerUserName);
@@ -44,7 +43,7 @@ public class FollowService {
         User followerUser = userRepository.findByUsername(followerUserName).orElseThrow(IllegalArgumentException::new);
         User followingUser = userRepository.findById(followingUserId).orElseThrow(IllegalArgumentException::new);
 
-        if (followerUser.equals(followingUser)){
+        if (followerUser.getId().equals(followingUser.getId())){
             throw new IllegalArgumentException("자기 자신을 친구 추가할 수 없습니다.");
         }
 
@@ -59,8 +58,14 @@ public class FollowService {
             throw new IllegalArgumentException("현재 사용자는 존재하지 않습니다.");
         }
         User myUser = userRepository.findByUsername(myUserName).orElseThrow(IllegalArgumentException::new);
-        List<User> myFollowings = followRepository.findFollowingUsersByFollowerUser(myUser);
-        return new MyFriendResponse(myUser, myFollowings);
+        Set<String> followingSet = followRepository.findAllByFollowerUser(myUser).stream().map(follow -> follow.getFollowingUser().getName()).collect(Collectors.toSet());
+        Set<String> followerSet = followRepository.findAllByFollowingUser(myUser).stream().map(follow -> follow.getFollowerUser().getName()).collect(Collectors.toSet());
+        Set<String> mergedNameSet = new HashSet<>(followerSet);
+        mergedNameSet.addAll(followingSet);
+
+        List<FriendName> friendNames = mergedNameSet.stream().map(s -> FriendName.of(s)).collect(Collectors.toList());
+
+        return MyFriendResponse.from(myUser, friendNames);
     }
 
 }
